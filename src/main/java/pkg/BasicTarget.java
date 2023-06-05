@@ -26,19 +26,21 @@ public class BasicTarget {
 	}
 
 	public void publicVoidMethod(String arg) {
-		this.wrap("publicVoidMethod! [args=" + arg + "]");
+		this.wrapPublicVoidMethod("publicVoidMethod! [args=" + arg + "]");
+	}
+	protected void wrapPublicVoidMethod(String src) {
+		// NOOP
 	}
 
 	public String publicReturnMethod(String arg) {
 		return "publicReturnMethod! [args=" + arg + "]";
 	}
 
-	public void wrap(String src) {
-		// NOOP
-	}
-
 	private void privateVoidMethod(String arg) {
-		this.wrap("privateVoidMethod! [args=" + arg + "]");
+		this.wrapPrivateVoidMethod("privateVoidMethod! [args=" + arg + "]");
+	}
+	protected void wrapPrivateVoidMethod(String src) {
+		// NOOP
 	}
 
 	private String privateReturnMethod(String arg) {
