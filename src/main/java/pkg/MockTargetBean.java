@@ -1,9 +1,9 @@
 package pkg;
 
-public class InjectedObject {
+public class MockTargetBean {
 
 	public String getSomething() {
-		return "Something";
+		return "something";
 	}
 
 }
