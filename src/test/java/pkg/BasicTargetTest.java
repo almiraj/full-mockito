@@ -10,10 +10,19 @@ import static org.mockito.Mockito.verify;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 public class BasicTargetTest {
+
+	@Spy
+	@InjectMocks
+	private BasicTarget basicTarget;
+
+	@Mock
+	private InjectedObject injectedObject;
 
 	private AutoCloseable mock;
 
@@ -27,16 +36,29 @@ public class BasicTargetTest {
 		this.mock.close();
 	}
 
-	@Spy
-	private BasicTarget basicTarget;
-
 	@Test
-	public void testMainMethod_nonMock() {
+	public void testMainMethod_nonSpy() {
+		doReturn("SOMETHING").when(this.injectedObject).getSomething();
 		String actual = this.basicTarget.mainMethod();
 
 		String expected =
 				"publicReturnMethod! [args=publicReturnMethodArg!]\n"
-				+ "privateReturnMethod! [args=privateReturnMethodArg!]\n";
+				+ "privateReturnMethod! [args=privateReturnMethodArg!]\n"
+				+ "injectedObject return: SOMETHING";
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testMainMethod_mocked() {
+		doReturn("SOMETHING").when(this.injectedObject).getSomething();
+
+		String actual = this.basicTarget.mainMethod();
+
+		String expected =
+				"publicReturnMethod! [args=publicReturnMethodArg!]\n"
+				+ "privateReturnMethod! [args=privateReturnMethodArg!]\n"
+				+ "injectedObject return: SOMETHING";
 
 		assertEquals(expected, actual);
 		verify(this.basicTarget, times(1)).wrapPublicVoidMethod(any());
@@ -45,13 +67,15 @@ public class BasicTargetTest {
 
 	@Test
 	public void testMainMethod_publicVoidMethod() {
+		doReturn("SOMETHING").when(this.injectedObject).getSomething();
 		doNothing().when(this.basicTarget).publicVoidMethod(any());
 
 		String actual = this.basicTarget.mainMethod();
 
 		String expected =
 				"publicReturnMethod! [args=publicReturnMethodArg!]\n"
-				+ "privateReturnMethod! [args=privateReturnMethodArg!]\n";
+				+ "privateReturnMethod! [args=privateReturnMethodArg!]\n"
+				+ "injectedObject return: SOMETHING";
 
 		assertEquals(expected, actual);
 		verify(this.basicTarget, times(0)).wrapPublicVoidMethod(any());
@@ -60,13 +84,15 @@ public class BasicTargetTest {
 
 	@Test
 	public void testMainMethod_publicReturnMethod() {
+		doReturn("SOMETHING").when(this.injectedObject).getSomething();
 		doReturn("aaa").when(this.basicTarget).publicReturnMethod(any());
 
 		String actual = this.basicTarget.mainMethod();
 
 		String expected =
 				"aaa\n"
-				+ "privateReturnMethod! [args=privateReturnMethodArg!]\n";
+				+ "privateReturnMethod! [args=privateReturnMethodArg!]\n"
+				+ "injectedObject return: SOMETHING";
 
 		assertEquals(expected, actual);
 		verify(this.basicTarget, times(1)).wrapPublicVoidMethod(any());

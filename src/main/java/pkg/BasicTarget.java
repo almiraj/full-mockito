@@ -1,14 +1,14 @@
 package pkg;
 
+@SuppressWarnings("unused")
 public class BasicTarget {
 
-	@SuppressWarnings("unused")
+	private InjectedObject injectedObject = new InjectedObject();
+
 	private static final String PRIVATE_STATIC_FINAL_FIELD_VALUE = "PRIVATE_STATIC_FINAL_FIELD_VALUE!";
 
-	@SuppressWarnings("unused")
 	private static String PRIVATE_STATIC_FIELD_VALUE = "PRIVATE_STATIC_FIELD_VALUE!";
 
-	@SuppressWarnings("unused")
 	private String privateFieldValue = "privateFieldValue!";
 
 	public String mainMethod() {
@@ -21,6 +21,8 @@ public class BasicTarget {
 		this.privateVoidMethod("privateVoidMethodArg!");
 		sb.append(this.privateReturnMethod("privateReturnMethodArg!"));
 		sb.append("\n");
+
+		sb.append("injectedObject return: " + this.injectedObject.getSomething());
 
 		return sb.toString();
 	}
