@@ -3,6 +3,7 @@ package pkg;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -34,18 +35,26 @@ public class SpyTargetTest {
 		String actual = this.target.mainMethod();
 
 		assertEquals("b[argB]", actual);
-		verify(this.target, times(1)).wrap("a[argA]");
 	}
 
 	@Test
-	public void testSpied() {
+	public void testSpied_voidMethod() {
 		doNothing().when(this.target).voidMethod(any());
 
 		String actual = this.target.mainMethod();
 
 		assertEquals("b[argB]", actual);
-		// is not called when spied
-		verify(this.target, times(0)).wrap("a[argA]");
+		verify(this.target, times(1)).voidMethod("argA");
+	}
+
+	@Test
+	public void testSpied_returnMethod() {
+		doReturn("c").when(this.target).returnMethod(any());
+
+		String actual = this.target.mainMethod();
+
+		assertEquals("c", actual);
+		verify(this.target, times(1)).returnMethod("argB");
 	}
 
 }

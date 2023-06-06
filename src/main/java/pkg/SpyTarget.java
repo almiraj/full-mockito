@@ -8,15 +8,11 @@ public class SpyTarget {
 	}
 
 	protected void voidMethod(String arg) {
-		this.wrap("a[" + arg + "]");
+		// NOOP
 	}
 
 	protected String returnMethod(String arg) {
 		return "b[" + arg + "]";
-	}
-
-	protected void wrap(String src) {
-		// NOOP
 	}
 
 }
