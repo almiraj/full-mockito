@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
@@ -45,6 +46,19 @@ public class SpyTargetTest {
 
 		assertEquals("b[argB]", actual);
 		verify(this.target, times(1)).voidMethod("argA");
+	}
+
+	// easy to read difference between expected and actual with stack-trace when AssertionError
+	@Test
+	public void testSpied_voidMethod_argumentCaptorStyle() {
+		doNothing().when(this.target).voidMethod(any());
+		ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+
+		String actual = this.target.mainMethod();
+
+		assertEquals("b[argB]", actual);
+		verify(this.target, times(1)).voidMethod(captor.capture());
+		assertEquals("argA", captor.getValue());
 	}
 
 	@Test
