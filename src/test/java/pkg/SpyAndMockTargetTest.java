@@ -2,7 +2,6 @@ package pkg;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,13 +10,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-public class SpyTargetTest {
+public class SpyAndMockTargetTest {
+
+	@Mock
+	private MockTargetBean bean;
 
 	@Spy
-	private SpyTarget target;
+	@InjectMocks
+	private SpyAndMockTarget target;
 
 	private AutoCloseable mock;
 
@@ -32,20 +37,21 @@ public class SpyTargetTest {
 	}
 
 	@Test
-	public void testNonSpy() {
+	public void testNonSpyOrMock() {
 		String actual = this.target.mainMethod();
 
 		assertEquals("b[argB]", actual);
 	}
 
 	@Test
-	public void testSpied_voidMethod() {
-		doNothing().when(this.target).voidMethod(any());
+	public void testSpiedAndMocked() {
+		doReturn("SOMETHING").when(this.bean).getSomething();
+		doReturn("c").when(this.target).returnMethod(any());
 
 		String actual = this.target.mainMethod();
 
-		assertEquals("b[argB]", actual);
-		verify(this.target, times(1)).voidMethod("argA");
+		assertEquals("c", actual);
+		verify(this.target, times(1)).voidMethod("SOMETHING");
 	}
 
 	// easy to read difference between expected and actual with stack-trace when AssertionError
@@ -53,23 +59,14 @@ public class SpyTargetTest {
 	public void testSpied_voidMethod_argumentCaptorStyle() {
 		ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 
-		doNothing().when(this.target).voidMethod(any());
-
-		String actual = this.target.mainMethod();
-
-		assertEquals("b[argB]", actual);
-		verify(this.target, times(1)).voidMethod(captor.capture());
-		assertEquals("argA", captor.getValue());
-	}
-
-	@Test
-	public void testSpied_returnMethod() {
+		doReturn("SOMETHING").when(this.bean).getSomething();
 		doReturn("c").when(this.target).returnMethod(any());
 
 		String actual = this.target.mainMethod();
 
 		assertEquals("c", actual);
-		verify(this.target, times(1)).returnMethod("argB");
+		verify(this.target, times(1)).voidMethod(captor.capture());
+		assertEquals("SOMETHING", captor.getValue());
 	}
 
 }
