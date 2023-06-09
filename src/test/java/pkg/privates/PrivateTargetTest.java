@@ -24,7 +24,7 @@ public class PrivateTargetTest {
 
 		String actual = target.mainMethod();
 
-		assertEquals(actual, "stRefValue_refValue");
+		assertEquals("stRefValue_refValue", actual);
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class PrivateTargetTest {
 		m.setAccessible(true);
 		String actual = (String) m.invoke(target, "ARGS");
 
-		assertEquals(actual, "[psm:ARGS]");
+		assertEquals("[psm:ARGS]", actual);
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class PrivateTargetTest {
 		m.setAccessible(true);
 		String actual = (String) m.invoke(target, "ARGS");
 
-		assertEquals(actual, "[pm:ARGS]");
+		assertEquals("[pm:ARGS]", actual);
 	}
 
 }

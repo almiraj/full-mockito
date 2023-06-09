@@ -39,7 +39,7 @@ public class MultipleCalledTargetMockTest {
 		List<String> list = this.target.mainMethod();
 
 		// Illegal assertion because mock's method is not set
-		assertEquals(list, Arrays.asList(null, null));
+		assertEquals(Arrays.asList(null, null), list);
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class MultipleCalledTargetMockTest {
 
 		List<String> list = this.target.mainMethod();
 
-		assertEquals(list, Arrays.asList("a", "b"));
+		assertEquals(Arrays.asList("a", "b"), list);
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class MultipleCalledTargetMockTest {
 
 		List<String> list = this.target.mainMethod();
 
-		assertEquals(list, Arrays.asList("a", "b"));
+		assertEquals(Arrays.asList("a", "b"), list);
 	}
 
 }

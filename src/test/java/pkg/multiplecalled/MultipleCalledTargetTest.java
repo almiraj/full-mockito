@@ -34,7 +34,7 @@ public class MultipleCalledTargetTest {
 	public void testNonMock() {
 		List<String> list = this.target.mainMethod();
 
-		assertEquals(list, Arrays.asList("0", "1"));
+		assertEquals(Arrays.asList("0", "1"), list);
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class MultipleCalledTargetTest {
 
 		List<String> list = this.target.mainMethod();
 
-		assertEquals(list, Arrays.asList("a", "b"));
+		assertEquals(Arrays.asList("a", "b"), list);
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class MultipleCalledTargetTest {
 
 		List<String> list = this.target.mainMethod();
 
-		assertEquals(list, Arrays.asList("a", "b"));
+		assertEquals(Arrays.asList("a", "b"), list);
 	}
 
 }
